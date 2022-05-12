@@ -1,0 +1,11 @@
+{
+    "compilerOptions": {
+        "target": "ES3",
+        "watch": true,
+        "lib": ["dom", "ES2021"],
+        "outDir": "./dist"
+    },
+    "include": [
+        "src/**/*"
+    ]
+}
