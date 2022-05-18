@@ -9,7 +9,7 @@ class GameSpace {
     render(x,y){
         const gamearea = this.createSVG(x,y);
         gamearea.style.margin = "auto";
-        const rectangle = this.createEllipse(200,100,100,100,"red");
+        const rectangle = this.createLine(200,100,300,300,"red");
         
         document.body.appendChild(gamearea);
         document.getElementsByTagName("svg")[0].appendChild(rectangle);
@@ -86,6 +86,15 @@ class GameSpace {
         return text;
     }
 
+    createPolygon(x,y,points,color){
+        var svgns = this.getSvgNS();
+        const polygon = document.createElementNS(svgns,"polygon");
+
+        polygon.setAttribute("points",points);
+        polygon.setAttribute("style","fill:"+color);
+        return polygon;
+    }
+
 }
 
 const game = new GameSpace();
@@ -95,4 +104,4 @@ const game = new GameSpace();
 // - Define Class Structure
 // - Define Project Scope
 
-//! - Create path, polyline, polygon
+//! - Create path, polyline

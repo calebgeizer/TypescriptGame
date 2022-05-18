@@ -7,7 +7,7 @@ var GameSpace = /** @class */ (function () {
     GameSpace.prototype.render = function (x, y) {
         var gamearea = this.createSVG(x, y);
         gamearea.style.margin = "auto";
-        var rectangle = this.createEllipse(200, 100, 100, 100, "red");
+        var rectangle = this.createLine(200, 100, 300, 300, "red");
         document.body.appendChild(gamearea);
         document.getElementsByTagName("svg")[0].appendChild(rectangle);
     };
@@ -68,6 +68,13 @@ var GameSpace = /** @class */ (function () {
         text.innerHTML = text1;
         return text;
     };
+    GameSpace.prototype.createPolygon = function (x, y, points, color) {
+        var svgns = this.getSvgNS();
+        var polygon = document.createElementNS(svgns, "polygon");
+        polygon.setAttribute("points", points);
+        polygon.setAttribute("style", "fill:" + color);
+        return polygon;
+    };
     return GameSpace;
 }());
 var game = new GameSpace();
@@ -75,4 +82,4 @@ var game = new GameSpace();
 //// - Create Function for JS to Render HTML
 // - Define Class Structure
 // - Define Project Scope
-//! - Create path, polyline, polygon
+//! - Create path, polyline
