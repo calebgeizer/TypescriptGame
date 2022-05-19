@@ -1,85 +1,137 @@
-var GameSpace = /** @class */ (function () {
-    function GameSpace(width, height) {
-        if (width === void 0) { width = 1280; }
-        if (height === void 0) { height = 720; }
-        this.render(width, height);
+import GameSpace from "./gamespace.js";
+import Primitive from "./svgElements.js";
+const game = new GameSpace();
+const object = new Primitive();
+let colors = ["red", "green", "blue", "yellow", "orange", "purple", "pink", "brown", "aqua", "white"];
+/// * Generated Space Example * //
+for (let i = 0; i < 20; i++) {
+    game.appendSVG(object.createRect(i, colors[randomInt(0, 9)], randomDouble(1, 50), randomDouble(1, 50), randomDouble(1, 30), randomDouble(1, game.getWidth()), randomDouble(1, game.getHeight())));
+}
+function randomInt(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+function randomDouble(min, max) {
+    return Math.random() * (max - min) + min;
+}
+// add large text
+game.appendSVG(object.createText(0, "white", game.getWidth() / 2, game.getHeight() / 2, "Hello World!", "43pt"));
+// playerID
+let playerID;
+// On click, move the rect
+game.getSVG().addEventListener("click", function (event) {
+    console.log(event.target);
+    const rect = event.target;
+    //if event target is rect
+    if (rect.tagName === "rect") {
+        playerID = rect.id;
+        console.log(playerID);
     }
-    GameSpace.prototype.render = function (x, y) {
-        var gamearea = this.createSVG(x, y);
-        gamearea.style.margin = "auto";
-        var rectangle = this.createLine(200, 100, 300, 300, "red");
-        document.body.appendChild(gamearea);
-        document.getElementsByTagName("svg")[0].appendChild(rectangle);
-    };
-    GameSpace.prototype.getSvgNS = function () {
-        var svgns = "http://www.w3.org/2000/svg", container = document.getElementById('cont');
-        return svgns;
-    };
-    GameSpace.prototype.createSVG = function (x, y) {
-        var svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-        svg.setAttribute("width", x + "px");
-        svg.setAttribute("height", y + "px");
-        return svg;
-    };
-    // Create SVG Elements
-    GameSpace.prototype.createLine = function (x1, y1, x2, y2, color) {
-        var svgns = this.getSvgNS();
-        var line = document.createElementNS(svgns, "line");
-        line.setAttribute("x1", x1);
-        line.setAttribute("y1", y1);
-        line.setAttribute("x2", x2);
-        line.setAttribute("y2", y2);
-        line.setAttribute("style", "stroke:" + color);
-        return line;
-    };
-    GameSpace.prototype.createRect = function (x, y, color) {
-        var svgns = this.getSvgNS();
-        var rect = document.createElementNS(svgns, "rect");
-        rect.setAttribute("width", x);
-        rect.setAttribute("height", y);
-        rect.setAttribute("style", "fill:" + color);
-        return rect;
-    };
-    GameSpace.prototype.createCircle = function (x, y, r, color) {
-        var svgns = this.getSvgNS();
-        var circle = document.createElementNS(svgns, "circle");
-        circle.setAttribute("cx", x);
-        circle.setAttribute("cy", y);
-        circle.setAttribute("r", r);
-        circle.setAttribute("style", "fill:" + color);
-        return circle;
-    };
-    GameSpace.prototype.createEllipse = function (x, y, rx, ry, color) {
-        var svgns = this.getSvgNS();
-        var ellipse = document.createElementNS(svgns, "ellipse");
-        ellipse.setAttribute("cx", x);
-        ellipse.setAttribute("cy", y);
-        ellipse.setAttribute("rx", rx);
-        ellipse.setAttribute("ry", ry);
-        ellipse.setAttribute("style", "fill:" + color);
-        return ellipse;
-    };
-    GameSpace.prototype.createText = function (x, y, text1, color) {
-        var svgns = this.getSvgNS();
-        var text = document.createElementNS(svgns, "text");
-        text.setAttribute("x", x);
-        text.setAttribute("y", y);
-        text.setAttribute("fill", color);
-        text.innerHTML = text1;
-        return text;
-    };
-    GameSpace.prototype.createPolygon = function (x, y, points, color) {
-        var svgns = this.getSvgNS();
-        var polygon = document.createElementNS(svgns, "polygon");
-        polygon.setAttribute("points", points);
-        polygon.setAttribute("style", "fill:" + color);
-        return polygon;
-    };
-    return GameSpace;
-}());
-var game = new GameSpace();
-// TODO
-//// - Create Function for JS to Render HTML
-// - Define Class Structure
-// - Define Project Scope
-//! - Create path, polyline
+});
+//update every second
+setInterval(function () {
+    for (let i = 0; i < 20; i++) {
+        if (i == parseInt(playerID)) {
+            continue;
+        }
+        //random number from 1 to 10
+        let random = randomInt(1, 10);
+        if (random < 6) {
+            continue;
+        }
+        // get rect id
+        const rect = document.getElementById(i.toString());
+        let x = parseFloat(rect.getAttribute("x")) + randomInt(-50, 50);
+        let y = parseFloat(rect.getAttribute("y")) + randomInt(-50, 50);
+        if (x < 0) {
+            x = 0;
+        }
+        if (y < 0) {
+            y = 0;
+        }
+        if (x > game.getWidth()) {
+            x = game.getWidth();
+        }
+        if (y > game.getHeight()) {
+            y = game.getHeight();
+        }
+        // get width and height
+        let width = parseInt(rect.getAttribute("width"));
+        let height = parseInt(rect.getAttribute("height"));
+        // width = width + randomInt(-30, 30);
+        // height = height + randomInt(-30, 30);
+        if (width < 0) {
+            width = 0;
+        }
+        if (height < 0) {
+            height = 0;
+        }
+        if (width > 50) {
+            width = 50;
+        }
+        if (height > 50) {
+            height = 50;
+        }
+        // change color
+        rect.setAttribute("fill", colors[randomInt(0, 9)]);
+        rect.setAttribute("x", x);
+        rect.setAttribute("y", y);
+        rect.setAttribute("width", width.toString());
+        rect.setAttribute("height", height.toString());
+    }
+}, 1000);
+// On key press, move the rect
+document.addEventListener("keydown", function (event) {
+    if (playerID === undefined) {
+        return;
+    }
+    const rect = document.getElementById(playerID);
+    if (rect === null) {
+        return;
+    }
+    const x = parseInt(rect.getAttribute("x"));
+    const y = parseInt(rect.getAttribute("y"));
+    const width = parseInt(rect.getAttribute("width"));
+    const height = parseInt(rect.getAttribute("height"));
+    //disable css animation style
+    rect.style.transition = "none";
+    switch (event.key) {
+        case "ArrowUp":
+            rect.setAttribute("y", (y - 10).toString());
+            break;
+        case "ArrowDown":
+            rect.setAttribute("y", (y + 10).toString());
+            break;
+        case "ArrowLeft":
+            rect.setAttribute("x", (x - 10).toString());
+            break;
+        case "ArrowRight":
+            rect.setAttribute("x", (x + 10).toString());
+            break;
+        case "w":
+            rect.setAttribute("y", (y - 10).toString());
+            break;
+        case "s":
+            rect.setAttribute("y", (y + 10).toString());
+            break;
+        case "a":
+            rect.setAttribute("x", (x - 10).toString());
+            break;
+        case "d":
+            rect.setAttribute("x", (x + 10).toString());
+            break;
+        case "q":
+            rect.setAttribute("width", (width - 10).toString());
+            break;
+        case "e":
+            rect.setAttribute("width", (width + 10).toString());
+            break;
+        case "z":
+            rect.setAttribute("height", (height - 10).toString());
+            break;
+        case "c":
+            rect.setAttribute("height", (height + 10).toString());
+            break;
+        default:
+            break;
+    }
+});
