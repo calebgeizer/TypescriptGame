@@ -1,5 +1,7 @@
 import GameSpace from "./gamespace.js";
 import Primitive from "./svgElements.js";
+import Controls from "./controls.js";
+// import Animation from "./animation.js";
 
 const game = new GameSpace();
 const object = new Primitive();
