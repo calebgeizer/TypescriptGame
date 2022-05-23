@@ -142,3 +142,9 @@ document.addEventListener("keydown", function (event) {
             break;
     }
 });
+
+
+
+// TODO 
+// Parent Class SVG Functions
+// Child Classes define Player, Object, Background

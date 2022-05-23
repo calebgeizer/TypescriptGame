@@ -1,5 +1,6 @@
 import GameSpace from "./gamespace.js";
 import Primitive from "./svgElements.js";
+// import Animation from "./animation.js";
 const game = new GameSpace();
 const object = new Primitive();
 let colors = ["red", "green", "blue", "yellow", "orange", "purple", "pink", "brown", "aqua", "white"];
@@ -135,3 +136,6 @@ document.addEventListener("keydown", function (event) {
             break;
     }
 });
+// TODO 
+// Parent Class SVG Functions
+// Child Classes define Player, Object, Background
